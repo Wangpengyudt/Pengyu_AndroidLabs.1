@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         Context context1 = getApplicationContext();
         CharSequence text1 = "The width = " + imgbtn.getWidth() + " and height = " + imgbtn.getHeight();
-        imgbtn.setOnClickListener(   vw  ->  mytext.setText(text1));
+        imgbtn.setOnClickListener(   vw  ->  mytext.setText("The width = " + imgbtn.getWidth() + " and height = " + imgbtn.getHeight()));
         int duration1 = Toast.LENGTH_LONG;
 
     }
