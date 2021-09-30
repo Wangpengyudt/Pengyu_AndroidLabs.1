@@ -2,21 +2,70 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="algonquin.cst2355.wang0532">
 
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+    <uses-feature
+        android:name="android.software.leanback"
+        android:required="true" />
+
+
+<!--    <application android:banner="@drawable/pengyu_tvnew">-->
+
+
     <application
         android:allowBackup="true"
+        android:banner="@drawable/pengyu_tvnew11"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.PengyusAndroidLabs">
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-    </application>
+
+
+                <activity
+                    android:name=".MainActivity"
+                    android:exported="true">
+                    <intent-filter>
+                        <action android:name="android.intent.action.MAIN" />
+
+                        <category android:name="android.intent.category.LAUNCHER" />
+                    </intent-filter>
+                </activity>
+            </application>
+
+
+<!--        <activity-->
+
+<!--            android:name=".MainActivity"-->
+<!--            android:label="@string/app_name">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+<!--        <activity-->
+
+<!--            android:label="@string/app_name"-->
+<!--            android:theme="@style/Theme.PengyusAndroidLabs">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+
+
+
+
+<!--        <activity-->
+<!--            android:name=".MainActivity"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+<!--    </application>-->
 
 </manifest>
