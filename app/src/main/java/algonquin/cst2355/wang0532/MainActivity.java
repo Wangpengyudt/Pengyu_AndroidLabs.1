@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
 }
 
-
+//some commit
 //        TextView mytext = findViewById(R.id.textview);
 //        Button myButton = findViewById(R.id.mybutton);
 //        EditText myedit = findViewById(R.id.myedittext);
