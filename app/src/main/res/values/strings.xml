@@ -4,4 +4,5 @@
     <string name="button_message">I\'m a button</string>
     <string name="editmessage" translatable="false">I\'m a EditText</string>
     <string name="hinttext" translatable="false">Write something here</string>
+    <string name="enter_email">Enter Your Email Address:</string>
 </resources>
