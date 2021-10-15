@@ -8,15 +8,23 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.PengyusAndroidLabs">
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
+
+        <activity android:name=".ChatRoom"
+            android:exported="TODO">
+
+<!--            android:exported="TODO">    do not know -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+
+
     </application>
 
 </manifest>
