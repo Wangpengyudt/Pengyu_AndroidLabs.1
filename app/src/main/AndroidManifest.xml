@@ -10,7 +10,7 @@
         android:theme="@style/Theme.PengyusAndroidLabs">
 
         <activity android:name=".ChatRoom"
-            android:exported="TODO">
+            android:exported="true">
 
 <!--            android:exported="TODO">    do not know -->
             <intent-filter>
