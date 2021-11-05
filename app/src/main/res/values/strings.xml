@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Pengyu\'s Android Labs</string>
-    <string name="hello_message">Hello World!</string>
-    <string name="button_message">I\'m a button</string>
+    <string name="hello_message">Type in your password:</string>
+    <string name="button_message">Login</string>
     <string name="editmessage" translatable="false">I\'m a EditText</string>
     <string name="hinttext" translatable="false">Write something here</string>
 </resources>
