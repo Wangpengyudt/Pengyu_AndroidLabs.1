@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="algonquin.cst2355.wang0532">
+
+    <user-feature android:name="android.hardware.camera" android:required="true"/>
 
     <application
         android:allowBackup="true"
@@ -12,19 +15,20 @@
         <activity android:name=".ChatRoom"
             android:exported="true">
 
-<!--            android:exported="TODO">    do not know -->
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+            <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
 
+        </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
+            android:exported="true">
 
+        </activity>
 
-    </application>
+</application>
+
 
 </manifest>
