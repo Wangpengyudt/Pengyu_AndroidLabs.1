@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="algonquin.cst2355.wang0532">
 
-    <user-feature android:name="android.hardware.camera" android:required="true"/>
+<!--    <user-feature android:name="android.hardware.camera" android:required="true"/>-->
 
     <application
         android:allowBackup="true"
