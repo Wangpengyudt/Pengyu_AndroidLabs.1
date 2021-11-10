@@ -135,6 +135,9 @@ public class ChatRoom extends AppCompatActivity {
                             .setNegativeButton("Negative", (dialog, click1)->{})
                             .setPositiveButton("Positive", (dialog, click2)->{})
                             .setNeutralButton("Neutral", (dialog, click3)->{}).create().show();
+                    messages.remove(position);
+                    theAdapter.notifyItemRemoved(position);
+
                 });
 
                 timeView = itemView.findViewById(R.id.time);
