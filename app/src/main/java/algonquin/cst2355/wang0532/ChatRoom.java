@@ -26,7 +26,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ChatRoom extends AppCompatActivity {
-//    ArrayList<ChatMessage> messages = new ArrayList<>();
+  ArrayList<Message> messages = new ArrayList<>();
 //
        Button submit;
 //    Button buttonReceive;
@@ -63,23 +63,83 @@ public class ChatRoom extends AppCompatActivity {
 
         theAdapter = new MyAdapter();
         rView.setAdapter(theAdapter);
+        rView.setLayoutManager(new LinearLayoutManager(this));
+
+        submit.setOnClickListener(click ->{
+            String whatIsTyped = edit.getText().toString();
+            Date timeNow = new Date();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+
+            String currentDateandTime = sdf.format( timeNow );
+            //adding a new message to our history
+            messages.add(new Message(whatIsTyped, currentDateandTime));
+            edit.setText("");//clear the text
+            theAdapter.notifyItemInserted(messages.size() - 1);
+
+        });
     }
 
-        public class MyAdapter extends RecyclerView.Adapter {
+        public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
             @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                return null;
+            public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+                LayoutInflater li = getLayoutInflater();
+                View thisRow = li.inflate(R.layout.sent_message, parent, false);
+
+                return new MyViewHolder( thisRow );
             }
 
+
+
             @Override
-            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            public void onBindViewHolder(MyViewHolder holder, int position) {//need an arraylist to hold all the message.
+
+                //what message object is at position
+                Message thisRow = messages.get(position);
+
+                holder.timeView.setText(thisRow.getTimeSent());
+                holder.messageView.setText(thisRow.getMessageTyped());
+
+            }
+
+            public int getItemViewType(int position){
+                return 5;
+                //messages.get(position).getSentOrReceived();
 
             }
 
             @Override
             public int getItemCount() {
-                return 0;
+                return messages.size();
+            }
+        }
+
+        public class MyViewHolder extends RecyclerView.ViewHolder{
+
+            TextView timeView;
+            TextView messageView;
+
+
+            public MyViewHolder(View itemView){
+                super(itemView);
+                itemView.setOnClickListener( click ->{
+                    int position = getAbsoluteAdapterPosition();
+
+                    Message whatWasClicked = messages.get(position);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
+                    builder.setTitle("Question:");
+                    builder.setMessage("Do you want to delete this:" + whatWasClicked.getMessageTyped())
+                            .setNegativeButton("Negative", (dialog, click1)->{})
+                            .setPositiveButton("Positive", (dialog, click2)->{})
+                            .setNeutralButton("Neutral", (dialog, click3)->{}).create().show();
+                });
+
+                timeView = itemView.findViewById(R.id.time);
+                messageView = itemView.findViewById(R.id.message);
+
             }
         }
 
