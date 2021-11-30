@@ -17,6 +17,8 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -45,8 +47,11 @@ public class MainActivity extends AppCompatActivity {
     /** this is the loginButton at the bottom of the screen*/
     Button loginButton;
     /** */
+    String temp, minTemp, maxTemp, icon;
+
     EditText passwordText;
-    String serverUrl = "https://api.openweathermap.org/data/2.5/weather?q=%s&appid=7e943c97096a9784391a981c4d878b22&Units=metric";
+    String serverUrl = "https://api.openweathermap.org/data/2.5/weather?q=%s&appid=7e943c97096a9784391a981c4d878b22&Units=metric&mode=xml";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.mybutton);
         passwordText = findViewById(R.id.editTextTextPassword);
         feedbackText = findViewById(R.id.textview);
+        temp = minTemp = maxTemp = icon = "";
 
         loginButton.setOnClickListener((click) -> {
             String cityName = passwordText.getText().toString();
@@ -64,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             //done on the second processor
             newThread.execute( () ->{
                 try {
+
                     //encode the string
                 String fullUrl = String.format(serverUrl, URLEncoder.encode(cityName, "UTF-8"));
 
@@ -71,32 +78,73 @@ public class MainActivity extends AppCompatActivity {
                 HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();//connect to server
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream()); //read the information
 
-                    String jsonString = (new BufferedReader(
-                            new InputStreamReader(in, StandardCharsets.UTF_8)
-                    )).lines()
-                            .collect(Collectors.joining("\n"));
-                    //the whole JSON object
-                    JSONObject theDocument = new JSONObject(jsonString);
-                    //the small JSON object which key is "main"
-                    JSONObject mainObj = theDocument.getJSONObject("main");
-                    //get the value which key is "temp" from the JSON object mainObj
-                    double temp = mainObj.getDouble("temp");
-                    //get an json array
-                    JSONArray weatherArray = theDocument.getJSONArray("weather");
-                    //get the json object at the json array position 0
-                    JSONObject pos0Obj = weatherArray.getJSONObject(0);
-                    //get data from json object
-                    String icon = pos0Obj.getString("icon");
-                    //can only setText on GUI thread;
-                    //;
+                    //xml pull parser
+                    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                    factory.setNamespaceAware(false);
+                    XmlPullParser xpp = factory.newPullParser();
+                    xpp.setInput( in  , "UTF-8");
+
+                    //results = rawQuery()
+                    /**
+                     while(results.next()){
+                     get data from columns;
+                     }
+                     //read all the SQL data
+                     */
+                    //loop over the document:
+                    int nextEvent;
+                    while((nextEvent = xpp.next()) != xpp.END_DOCUMENT)  {  //still data to read
+                        switch ((nextEvent))  {   //this can be 1 of 5 things
+
+                            case XmlPullParser.START_TAG:
+                                String tagName = xpp.getName();
+                                if(tagName.equals("temprature")){
+                                   temp = xpp.getAttributeValue(null, "value");
+                                    minTemp = xpp.getAttributeValue(null, "min");
+                                    maxTemp = xpp.getAttributeValue(null, "max");
+                                }
+                                else if (tagName.equals("weather")){
+                                    //currently in <weather>
+                                    String icon = xpp.getAttributeValue(null, "icon");
+                                }
+                                break;
+                            case XmlPullParser.TEXT:
+                                break;
+                            case XmlPullParser.END_TAG:
+                                break;
+
+
+                        }
+                    }
+
+//                    String jsonString = (new BufferedReader(
+//                            new InputStreamReader(in, StandardCharsets.UTF_8)
+//                    )).lines()
+//                            .collect(Collectors.joining("\n"));
+//                    //the whole JSON object
+//                    JSONObject theDocument = new JSONObject(jsonString);
+//                    //the small JSON object which key is "main"
+//                    JSONObject mainObj = theDocument.getJSONObject("main");
+//                    //get the value which key is "temp" from the JSON object mainObj
+//                    double temp = mainObj.getDouble("temp");
+//                    //get an json array
+//                    JSONArray weatherArray = theDocument.getJSONArray("weather");
+//                    //get the json object at the json array position 0
+//                    JSONObject pos0Obj = weatherArray.getJSONObject(0);
+//                    //get data from json object
+//                    String icon = pos0Obj.getString("icon");
+//                    //can only setText on GUI thread;
+//                    //
                     runOnUiThread( () ->{
                         //running on the GUI threa
-                        feedbackText.setText("Temperature is : " + temp);
+                        //need temp, icon, max, min, declare outside the loop:
+                        feedbackText.setText(
+                                String.format("Temperature is :%s \n Max temp: %s, \n Min temp %s", temp, maxTemp, minTemp));
                     });
 
                 }
-                catch (JSONException je){
-                  Log.e("JSONException", je.getMessage());
+                catch (org.xmlpull.v1.XmlPullParserException je){
+                  Log.e("XMLException", je.getMessage());
                 }
                 catch (IOException ioe){
                   Log.e("IOException", ioe.getMessage());
