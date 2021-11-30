@@ -14,6 +14,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Executable;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
+
 /**
  * this page lets the user type in a password
  * author: Pengyu Wang
@@ -27,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     Button loginButton;
     /** */
     EditText passwordText;
-
+    String serverUrl = "https://api.openweathermap.org/data/2.5/weather?q=%s&appid=7e943c97096a9784391a981c4d878b22&Units=metric";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,11 +57,57 @@ public class MainActivity extends AppCompatActivity {
         feedbackText = findViewById(R.id.textview);
 
         loginButton.setOnClickListener((click) -> {
-            String password = passwordText.getText().toString();
+            String cityName = passwordText.getText().toString();
 
-            if(checkPasswowrdComplexity(password)){
-                feedbackText.setText("Your password is complex enough");
-            }
+            //must be done on other thread
+            Executor newThread = Executors.newSingleThreadExecutor();
+            //done on the second processor
+            newThread.execute( () ->{
+                try {
+                    //encode the string
+                String fullUrl = String.format(serverUrl, URLEncoder.encode(cityName, "UTF-8"));
+
+                URL url = new URL(String.format(fullUrl));//build the connection
+                HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();//connect to server
+                InputStream in = new BufferedInputStream(urlConnection.getInputStream()); //read the information
+
+                    String jsonString = (new BufferedReader(
+                            new InputStreamReader(in, StandardCharsets.UTF_8)
+                    )).lines()
+                            .collect(Collectors.joining("\n"));
+                    //the whole JSON object
+                    JSONObject theDocument = new JSONObject(jsonString);
+                    //the small JSON object which key is "main"
+                    JSONObject mainObj = theDocument.getJSONObject("main");
+                    //get the value which key is "temp" from the JSON object mainObj
+                    double temp = mainObj.getDouble("temp");
+                    //get an json array
+                    JSONArray weatherArray = theDocument.getJSONArray("weather");
+                    //get the json object at the json array position 0
+                    JSONObject pos0Obj = weatherArray.getJSONObject(0);
+                    //get data from json object
+                    String icon = pos0Obj.getString("icon");
+                    //can only setText on GUI thread;
+                    //;
+                    runOnUiThread( () ->{
+                        //running on the GUI threa
+                        feedbackText.setText("Temperature is : " + temp);
+                    });
+
+                }
+                catch (JSONException je){
+                  Log.e("JSONException", je.getMessage());
+                }
+                catch (IOException ioe){
+                  Log.e("IOException", ioe.getMessage());
+                }
+            });   //end of the newThread.execute()
+
+
+
+//            if(checkPasswowrdComplexity(searchWord)){
+//                feedbackText.setText("Your password is complex enough");
+//            }
         });
 
 
