@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
@@ -97,7 +99,21 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
             }
+            drawer.closeDrawer(GravityCompat.START);
             return false;
+        }));
+
+        BottomNavigationView bottomView = findViewById(R.id.bottomMenu);
+        bottomView.setOnItemSelectedListener((item -> {
+            switch (item.getItemId()){
+                case R.id.show_edit:
+                    passwordText.setVisibility(View.VISIBLE);
+                    break;
+                case R.id.hide_edit:
+                    passwordText.setVisibility(View.INVISIBLE);
+                    break;
+            }
+            return  false;
         }));
 
         loginButton.setOnClickListener((click) -> {
