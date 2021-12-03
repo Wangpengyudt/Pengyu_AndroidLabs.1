@@ -1,8 +1,10 @@
 package algonquin.cst2355.wang0532;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -75,6 +77,12 @@ public class MainActivity extends AppCompatActivity {
         feedbackText = findViewById(R.id.textview);
 
         setSupportActionBar(myToolbar);
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, myToolbar, R.string.open, R.string.close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
         loginButton.setOnClickListener((click) -> {
             String cityName = passwordText.getText().toString();
