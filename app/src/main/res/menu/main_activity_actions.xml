@@ -5,17 +5,30 @@
 
     <item
         android:icon="@drawable/clear"
-        android:title="Clear weather"
-        app:showAsAction="always"
+        android:title="Hide login button"
+        app:showAsAction="never"
         android:id="@+id/hide_views"/>
     <!--        always means will always on the memu bar-->
 
     <item
         android:icon="@drawable/refresh"
-        android:title="Refresh"
+        android:title="show login button"
 
-        app:showAsAction="always"
+        app:showAsAction="never"
         android:id="@+id/refresh"
         />
+    <item
+        android:id="@+id/decrease"
+        android:icon="?android:attr/textSelectHandleLeft"
+
+        android:title="decrease font size"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/increase"
+        android:icon="@drawable/app_icon"
+
+        android:title="increase font size"
+        app:showAsAction="never" />
+
 
 </menu>

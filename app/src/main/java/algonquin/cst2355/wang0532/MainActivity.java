@@ -43,6 +43,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 public class MainActivity extends AppCompatActivity {
+    float oldSize = 14;
 
     /**this textView shows the feedback */
     TextView feedbackText;
@@ -219,6 +220,14 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.refresh:
                     loginButton.setVisibility(View.VISIBLE);
+                    break;
+                case R.id.increase:
+                    oldSize++;
+                    passwordText.setTextSize(oldSize);
+                    break;
+                case R.id.decrease:
+                    oldSize--;
+                    passwordText.setTextSize(oldSize);
                     break;
             }
 
