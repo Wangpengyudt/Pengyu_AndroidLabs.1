@@ -6,7 +6,7 @@
         android:id="@+id/hide_edit"
         android:icon="@drawable/refresh"
         android:title="Hide text view"
-        app:showAsAction="always"/>
+        app:showAsAction="never"/>
     <item
         android:id="@+id/show_edit"
         android:icon="@drawable/refresh"

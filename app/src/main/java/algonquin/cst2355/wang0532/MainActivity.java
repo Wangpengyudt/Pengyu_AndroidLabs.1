@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -83,6 +85,20 @@ public class MainActivity extends AppCompatActivity {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, myToolbar, R.string.open, R.string.close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        NavigationView navView = findViewById(R.id.popout_menu);
+        navView.setNavigationItemSelectedListener((item -> {
+            switch (item.getItemId()){
+                case R.id.show_edit:
+                    passwordText.setVisibility(View.VISIBLE);
+                    break;
+                case R.id.hide_edit:
+                    passwordText.setVisibility(View.INVISIBLE);
+                    break;
+
+            }
+            return false;
+        }));
 
         loginButton.setOnClickListener((click) -> {
             String cityName = passwordText.getText().toString();
