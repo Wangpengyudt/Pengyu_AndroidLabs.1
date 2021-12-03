@@ -2,10 +2,14 @@ package algonquin.cst2355.wang0532;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,14 +51,29 @@ public class MainActivity extends AppCompatActivity {
     /** */
     EditText passwordText;
     String serverUrl = "https://api.openweathermap.org/data/2.5/weather?q=%s&appid=7e943c97096a9784391a981c4d878b22&Units=metric";
+    Toolbar myToolbar;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity_actions, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        myToolbar = findViewById(R.id.toolbar);
+
 
         loginButton = findViewById(R.id.mybutton);
         passwordText = findViewById(R.id.editTextTextPassword);
         feedbackText = findViewById(R.id.textview);
+
+        setSupportActionBar(myToolbar);
 
         loginButton.setOnClickListener((click) -> {
             String cityName = passwordText.getText().toString();
@@ -190,7 +209,23 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
-//        TextView mytext = findViewById(R.id.textview);
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+            switch (item.getItemId()){
+                case R.id.hide_views:
+                    loginButton.setVisibility(View.INVISIBLE);
+                    break;
+                case R.id.refresh:
+                    loginButton.setVisibility(View.VISIBLE);
+                    break;
+            }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    //        TextView mytext = findViewById(R.id.textview);
 //        Button myButton = findViewById(R.id.mybutton);
         //EditText myedit = findViewById(R.id.myedittext);
 //        myButton.setOnClickListener(new View.OnClickListener() {

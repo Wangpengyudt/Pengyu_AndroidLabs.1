@@ -4,4 +4,6 @@
     <string name="button_message">Login</string>
     <string name="editmessage" translatable="false">I\'m a EditText</string>
     <string name="hinttext" translatable="false">Write something here</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>
